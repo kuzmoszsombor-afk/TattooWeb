@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetoválószalon | Foglalás</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">INK<span>.</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Főoldal</a></li>
+            <li><a href="portfolio.html">Munkáim</a></li>
+            <li><a href="foglalas.html" class="active">Foglalás</a></li>
+        </ul>
+        <div class="burger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </nav>
+
+    <section class="booking-section">
+        <h2>Időpont<span>foglalás</span></h2>
+        <div class="form-container">
+            <form id="bookingForm">
+                <input type="hidden" id="selectedTimeInput" name="Időpont" required>
+                
+                <div class="input-group">
+                    <label for="date">Dátum kiválasztása (Hétfő - Péntek)</label>
+                    <input type="date" id="date" name="Dátum" required>
+                </div>
+
+                <div class="input-group" id="timeSlotsContainer" style="display: none;">
+                    <label>Elérhető időpontok (08:00 - 16:00)</label>
+                    <div class="time-slots" id="timeSlots"></div>
+                </div>
+
+                <div class="input-group">
+                    <label for="name">Név</label>
+                    <input type="text" id="name" name="Név" required>
+                </div>
+                <div class="input-group">
+                    <label for="email">E-mail cím</label>
+                    <input type="email" id="email" name="Email" required>
+                </div>
+                <div class="input-group">
+                    <label for="phone">Telefonszám</label>
+                    <input type="tel" id="phone" name="Telefon" required>
+                </div>
+                <div class="input-group">
+                    <label for="details">Elképzelés leírása</label>
+                    <textarea id="details" name="Leírás" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn" id="submitBtn">Foglalás elküldése</button>
+            </form>
+            <div id="formStatus"></div>
+        </div>
+    </section>
+
+    <script src="main.js"></script>
+    <script src="foglalas.js"></script>
+</body>
+</html>
