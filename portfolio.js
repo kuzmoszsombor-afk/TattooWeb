@@ -1,44 +1,57 @@
-const tattoos = [
+const mateTattoos = [
     'kep1.jpg',
     'kep2.jpg',
     'kep3.jpg',
-    'kep4.jpg',
-    'kep5.jpg',
+    'kep4.jpg'
 ];
 
-const gallery = document.getElementById('gallery');
+const erikTattoos = [
+    'kep5e.jpg',
+    'kep6e.jpg',
+    'kep7e.jpg',
+    'kep8e.jpg'
+];
+
+const galleryMate = document.getElementById('gallery-mate');
+const galleryErik = document.getElementById('gallery-erik');
 const modal = document.getElementById('imageModal');
 const modalImg = document.getElementById('modalImg');
 const span = document.getElementsByClassName('close')[0];
 
-function loadGallery() {
-    tattoos.forEach(imageSrc => {
+function createGalleryImages(imagesArray, container) {
+    if (!container) return;
+    imagesArray.forEach(imageSrc => {
         const img = document.createElement('img');
         img.src = `images/${imageSrc}`;
         img.classList.add('gallery-item');
         img.alt = 'Tetoválás';
-        
-        img.onerror = function() {
+
+        img.onerror = function () {
             this.src = 'https://via.placeholder.com/300x300/1e1e1e/10b981?text=INK';
         };
 
-        img.addEventListener('click', function() {
+        img.addEventListener('click', function () {
             modal.style.display = 'block';
             modalImg.src = this.src;
         });
 
-        gallery.appendChild(img);
+        container.appendChild(img);
     });
 }
 
-span.onclick = function() {
+function loadGalleries() {
+    createGalleryImages(mateTattoos, galleryMate);
+    createGalleryImages(erikTattoos, galleryErik);
+}
+
+span.onclick = function () {
     modal.style.display = 'none';
 }
 
-modal.onclick = function(e) {
+modal.onclick = function (e) {
     if (e.target !== modalImg) {
         modal.style.display = 'none';
     }
 }
 
-document.addEventListener('DOMContentLoaded', loadGallery);
+document.addEventListener('DOMContentLoaded', loadGalleries);

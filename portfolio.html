@@ -1,18 +1,32 @@
 <!DOCTYPE html>
 <html lang="hu">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tetoválószalon | Munkáim</title>
+    <title>Meraki Tattoo | Munkáink</title>
+    <meta name="description"
+        content="Böngészd Meraki Tattoo legújabb munkáit: black & grey realizmus, dark art, fineline és egyedi lettering tetoválások.">
+    <meta name="keywords"
+        content="tattoo, tetoválás, tetoválószalon, Hajdúböszörmény, Meraki, Meraki tattoo, dotwork, dark art, art, tetkó">
+    <link rel="icon" type="image/png" href="images/favicon.png">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
+
 <body>
     <nav class="navbar">
-        <div class="logo">INK<span>.</span></div>
+        <div class="logo">
+            <img src="images/favicon.png" alt="Meraki logo" width="30"
+                style="margin-right:10px;vertical-align:middle;"><span class="logo-typed"></span><span
+                class="logo-cursor"></span>
+        </div>
         <ul class="nav-links">
             <li><a href="index.html">Főoldal</a></li>
-            <li><a href="portfolio.html" class="active">Munkáim</a></li>
-            <li><a href="foglalas.html">Foglalás</a></li>
+            <li><a href="portfolio.html" class="active">Munkáink</a></li>
+            <li><a href="elerhetosegek.html">Kapcsolat</a></li>
+            <li><a href="ahelyrol.html">A Helyről</a></li>
+            <li><a href="megbeszeles.html">Foglalás</a></li>
         </ul>
         <div class="burger">
             <div></div>
@@ -21,10 +35,23 @@
         </div>
     </nav>
 
-    <section class="portfolio-section">
-        <h2>Eddigi <span>Munkáim</span></h2>
-        <div class="gallery" id="gallery">
+    <header class="page-hero">
+        <div class="page-hero-content reveal">
+            <div class="page-hero-eyebrow"><i class="fas fa-images"></i> Galéria</div>
+            <h1>Eddigi <span>Munkáink</span></h1>
         </div>
+    </header>
+
+    <section class="portfolio-section">
+        <h2
+            style="text-align:center; color:#10b981; margin-bottom:30px; font-size:2rem; text-transform:uppercase; letter-spacing:2px;">
+            Máté Munkái</h2>
+        <div class="gallery" id="gallery-mate"></div>
+
+        <h2
+            style="text-align:center; color:#10b981; margin-top:80px; margin-bottom:30px; font-size:2rem; text-transform:uppercase; letter-spacing:2px;">
+            Erik Munkái</h2>
+        <div class="gallery" id="gallery-erik"></div>
     </section>
 
     <div id="imageModal" class="modal">
@@ -32,7 +59,21 @@
         <img class="modal-content" id="modalImg">
     </div>
 
+    <footer>
+        <div class="footer-logo">MERAKI<span>.</span></div>
+        <nav class="footer-links">
+            <a href="index.html">Főoldal</a>
+            <a href="portfolio.html">Munkáink</a>
+            <a href="elerhetosegek.html">Kapcsolat</a>
+            <a href="ahelyrol.html">A Helyről</a>
+            <a href="megbeszeles.html">Foglalás</a>
+        </nav>
+        <div class="footer-copy">© 2026 Meraki Tattoo — Minden jog fenntartva</div>
+    </footer>
+
+    <div class="noise-overlay"></div>
     <script src="main.js"></script>
     <script src="portfolio.js"></script>
 </body>
+
 </html>

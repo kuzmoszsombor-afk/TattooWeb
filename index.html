@@ -1,18 +1,32 @@
 <!DOCTYPE html>
 <html lang="hu">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tetoválószalon | Főoldal</title>
+    <title>Meraki Tattoo | Főoldal</title>
+    <meta name="description"
+        content="Egyedi tervezésű tetoválások Hajdúböszörményben. Az első konzultáció ingyenes — hozd az ötletet, a többi Máté Kissre vár.">
+    <meta name="keywords"
+        content="tattoo, tetoválás, tetoválószalon, Hajdúböszörmény, Meraki, Meraki tattoo, dotwork, dark art, art, tetkó">
+    <link rel="icon" type="image/png" href="images/favicon.png">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
+
 <body>
     <nav class="navbar">
-        <div class="logo">INK<span>.</span></div>
+        <a class="logo" href="index.html">
+            <img src="images/favicon.png" alt="Meraki logo" width="30"
+                style="margin-right:10px;vertical-align:middle;"><span class="logo-typed"></span><span
+                class="logo-cursor"></span>
+        </a>
         <ul class="nav-links">
             <li><a href="index.html" class="active">Főoldal</a></li>
             <li><a href="portfolio.html">Munkáim</a></li>
-            <li><a href="foglalas.html">Foglalás</a></li>
+            <li><a href="elerhetosegek.html">Kapcsolat</a></li>
+            <li><a href="ahelyrol.html">A Helyről</a></li>
+            <li><a href="megbeszeles.html">Foglalás</a></li>
         </ul>
         <div class="burger">
             <div></div>
@@ -20,29 +34,207 @@
             <div></div>
         </div>
     </nav>
-    
+
     <header class="hero">
-        <div class="hero-content">
-            <h1>Sötétbe Zárt <span>Művészet</span></h1>
-            <p>Egyedi tervezésű tetoválások, ahol a te víziód kel életre a bőrön.</p>
-            <a href="portfolio.html" class="btn">Nézd meg a munkáimat</a>
+        <div class="hero-inner">
+            <div class="hero-content reveal">
+                <div class="hero-badge"><i class="fas fa-pen-nib"></i> Egyedi tervezés · Steril technológia</div>
+                <h1>Sötétbe Zárt <span>Művészet</span></h1>
+                <p>meraki</span> egy görög eredetű kifejezés (μεράκι), amely azt jelenti, hogy valamit <strong>teljes
+                        lélekkel, mérhetetlen szenvedéllyel, kreativitással vagy szeretettel</strong> csinálunk.</p>
+                <div class="hero-actions">
+                    <a href="megbeszeles.html" class="btn"><i class="fas fa-calendar-check"></i> Időpontfoglalás</a>
+                    <a href="portfolio.html" class="btn-ghost">Munkáim <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="hero-visual reveal delay-1">
+                <div class="orbit-scene">
+                    <div class="orbit-track"></div>
+                    <div class="orbit-ring r2"></div>
+                    <div class="orbit-ring r3"></div>
+                    <div class="orbit-ring r4"></div>
+                    <div class="orbit-sun"></div>
+                    <div class="orbit-core">MERAKI.</div>
+                    <div class="sat sat-1"></div>
+                    <div class="sat sat-2"></div>
+                    <div class="sat sat-3"></div>
+                    <div class="sat sat-4"></div>
+                </div>
+                <div class="hero-card c1"><i class="fas fa-shield-halved"></i> 100% higiénia</div>
+                <!-- <div class="hero-card c2"><i class="fas fa-award"></i> meraki </div> -->
+                <div class="hero-card c3"><i class="fas fa-star"></i> szenvedély</div>
+            </div>
         </div>
-        <div class="abstract-shape"></div>
+        <div class="scroll-hint"><i class="fas fa-angles-down"></i></div>
     </header>
 
-    <section class="about">
-        <h2>Rólam</h2>
-        <div class="about-grid">
-            <div class="about-text">
-                <p>Szalonomban a modern, sötét és elvont stílusok otthonra leltek. Célom, hogy a tetoválás ne csak egy minta legyen, hanem egy mélyebb önkifejezési forma.</p>
-                <p>Kizárólag a legmagasabb minőségű festékekkel és maximális higiéniai körülmények között dolgozom, hogy a végeredmény tökéletes és tartós legyen.</p>
+    <section class="stats-strip">
+        <div class="stat reveal">
+            <div class="stat-num" data-count="500">0</div>
+            <div class="stat-label">Elkészült tetoválás</div>
+        </div>
+        <div class="stat reveal delay-1">
+            <div class="stat-num" data-count="8">0</div>
+            <div class="stat-label">Év tapasztalat</div>
+        </div>
+        <div class="stat reveal delay-2">
+            <div class="stat-num" data-count="1200">0</div>
+            <div class="stat-label">Rajzolt vázlat</div>
+        </div>
+        <div class="stat reveal delay-3">
+            <div class="stat-num" data-count="100">0</div>
+            <div class="stat-label">% higiénia</div>
+        </div>
+    </section>
+
+    <!-- <section class="meraki-preface">
+        <div class="preface-inner reveal">
+            <h2>Előszó</h2>
+            <p>A <span class="meraki-highlight">meraki</span> egy görög eredetű kifejezés (μεράκι), amely azt jelenti, hogy valamit <strong>teljes lélekkel, mérhetetlen szenvedéllyel, kreativitással vagy szeretettel</strong> csinálunk.</p>
+        </div>
+    </section> -->
+
+    <section class="about" id="rolunk">
+        <h2 class="section-title reveal">Rólunk</h2>
+        <div class="about-container">
+            <!-- Máté -->
+            <div class="about-card reveal delay-1">
+                <div class="about-image">
+                    <img src="images/mateo.jpg" alt="Kiss Máté"
+                        onerror="this.onerror=null;this.src='https://via.placeholder.com/500x600/0a0a0a/10b981?text=MATE';">
+                </div>
+                <div class="about-text">
+                    <h3>Máté</h3>
+                    <p class="lead">Munkáimban elsősorban a sötét, horrorisztikus és folk inspirációjú témák jelennek
+                        meg, emellett szívesen dolgozom kaligráfiai elemekkel, valamint letisztult, minimalista
+                        tervekkel is.</p>
+                    <p>Minden tetoválást egyedi projektként kezelek. Célom nem csupán egy minta elkészítése, hanem egy
+                        olyan időtálló alkotás létrehozása, amely esztétikailag és személyes jelentésében is hosszú
+                        távon megőrzi az értékét.</p>
+                    <p>Ha felkeltette az érdeklődésed a munkám, várunk hamarosan nyíló stúdiónkban, ahol közösen életre
+                        kelthetjük az elképzeléseidet.</p>
+                    <div class="artist-contact">
+                        <a href="tel:+36703750922"><i class="fas fa-phone"></i> +36 70 375 0922</a>
+                        <a href="mailto:calvin.fangoria@gmail.com"><i class="fas fa-envelope"></i>
+                            calvin.fangoria@gmail.com</a>
+                        <a href="https://instagram.com/calvinfangoriart" target="_blank"><i
+                                class="fab fa-instagram"></i> @calvinfangoriart</a>
+                    </div>
+                </div>
             </div>
-            <div class="about-image">
-                <img src="images/mateo.jpg" alt="Rólam">
+
+            <!-- Erik -->
+            <div class="about-card reveal delay-2">
+                <div class="about-image">
+                    <img src="images/erik.jpg" alt="Erik"
+                        onerror="this.onerror=null;this.src='https://via.placeholder.com/500x600/0a0a0a/10b981?text=ERIK';">
+                </div>
+                <div class="about-text">
+                    <h3>Erik</h3>
+                    <p class="lead">A tetoválás világával 2011-ben kezdtem foglalkozni. Ami akkor még csak hobbinak
+                        indult, az az évek során a hivatásommá és a szenvedélyemmé vált.</p>
+                    <p>Mindig is szerettem a kihívásokat és az új dolgok tanulását, ezért sosem ragadtam le egyetlen
+                        stílusnál. Hiszem, hogy minden tetoválás egyedi történetet mesél el, ezért számomra a
+                        legfontosabb, hogy olyan munkát készítsek, amely valóban tükrözi viselője személyiségét és
+                        elképzeléseit.</p>
+                    <p>Az elmúlt évek során számos stílusban szereztem tapasztalatot, folyamatosan fejlesztve a
+                        technikai tudásomat és kreativitásomat. Nem egyetlen irányzatot követek – inkább arra törekszem,
+                        hogy minden vendégem számára a lehető legjobb és leginkább személyre szabott végeredményt hozzam
+                        létre.</p>
+                    <div class="artist-contact">
+                        <a href="tel:+36703356187"><i class="fas fa-phone"></i> +36 70 335 6187</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
+    <section class="services" id="szolgaltatasok">
+        <h2 class="section-title reveal">Stílusok, amikkel dolgozunk</h2>
+        <div class="services-grid">
+            <div class="service-card reveal">
+                <div class="service-icon"><i class="fas fa-khanda"></i></div>
+                <h3>Black &amp; Grey Realizmus</h3>
+                <p>Portrék és történetek finom árnyalatokkal, mély kontraszttal.</p>
+            </div>
+            <div class="service-card reveal delay-1">
+                <div class="service-icon"><i class="fas fa-spider"></i></div>
+                <h3>Dark &amp; Horror</h3>
+                <p>Sötét art — ahol a bőr a vászon, a hangulat pedig maga a kaland.</p>
+            </div>
+            <div class="service-card reveal delay-2">
+                <div class="service-icon"><i class="fas fa-feather-pointed"></i></div>
+                <h3>Fineline &amp; Ornaments</h3>
+                <p>Apró részletek, kifinomult vonalak, időtálló elegancia.</p>
+            </div>
+            <div class="service-card reveal delay-3">
+                <div class="service-icon"><i class="fas fa-fire-flame-curved"></i></div>
+                <h3>Custom Lettering</h3>
+                <p>Saját tervezésű betűtípusok.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-icon"><i class="fas fa-gears"></i></div>
+                <h3>Cover-up &amp; Rework</h3>
+                <p>Régi, kinőtt tetoválások újraértelmezése sötét, modern stílusban.</p>
+            </div>
+            <div class="service-card reveal delay-1">
+                <div class="service-icon"><i class="fas fa-droplet"></i></div>
+                <h3>Színes munkák</h3>
+                <p>Merész színvilág, ami évek múltán is intenzív marad.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="process">
+        <h2 class="section-title reveal">Így zajlik</h2>
+        <div class="process-grid">
+            <div class="process-step reveal">
+                <div class="step-num">01</div>
+                <h3>Konzultáció</h3>
+                <p>Elmeséled az elképzelésed, méretet és helyet választunk.</p>
+            </div>
+            <div class="process-step reveal delay-1">
+                <div class="step-num">02</div>
+                <h3>Tervezés</h3>
+                <p>Egyedi vázlat készül, amit addig finomítunk, amíg tökéletes nem lesz.</p>
+            </div>
+            <div class="process-step reveal delay-2">
+                <div class="step-num">03</div>
+                <h3>Elkészítés</h3>
+                <p>Steril körülmények között, maximális koncentrációval varrjuk a bőrre.</p>
+            </div>
+            <div class="process-step reveal delay-3">
+                <div class="step-num">04</div>
+                <h3>Utókezelés</h3>
+                <p>Ápolási útmutató.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-banner">
+        <div class="cta-inner reveal">
+            <h2>Készen állsz a <span>saját történetedre?</span></h2>
+            <p>Foglalj időpontot!</p>
+            <a href="megbeszeles.html" class="btn btn-big">Időpontfoglalás <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="cta-shape"></div>
+        <div class="cta-shape s2"></div>
+    </section>
+
+    <footer>
+        <div class="footer-logo">MERAKI<span>.</span></div>
+        <nav class="footer-links">
+            <a href="index.html">Főoldal</a>
+            <a href="portfolio.html">Munkáim</a>
+            <a href="elerhetosegek.html">Kapcsolat</a>
+            <a href="ahelyrol.html">A Helyről</a>
+            <a href="megbeszeles.html">Foglalás</a>
+        </nav>
+        <div class="footer-copy">© 2026 Meraki Tattoo — Minden jog fenntartva</div>
+    </footer>
+
+    <div class="noise-overlay"></div>
     <script src="main.js"></script>
 </body>
+
 </html>

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meraki Tattoo | Időpont Megbeszélés</title>
+    <meta name="description" content="Egyeztess időpontot a Meraki Tattoo stúdióval. Ügyfélfogadás előre egyeztetett időpontban, hétfőtől péntekig 16:00–20:00 között.">
+    <meta name="keywords" content="tattoo, tetoválás, tetoválószalon, Hajdúböszörmény, Meraki, Meraki tattoo, dotwork, dark art, art, tetkó">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* ── Noise overlay ── */
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            background-image: url('images/noise.png');
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* ── Page hero ── */
+        .page-hero {
+            height: 38vh;
+            min-height: 260px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 52px;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 70% 60% at 50% 0%, rgba(16,185,129,.18) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 80% 80%, rgba(16,185,129,.07) 0%, transparent 60%);
+        }
+        .page-hero-content {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .page-hero-eyebrow {
+            font-size: .72rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #10b981;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .page-hero-eyebrow::before,
+        .page-hero-eyebrow::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 1px;
+            background: #10b981;
+            opacity: .5;
+        }
+        .page-hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 1.1;
+        }
+        .page-hero h1 span { color: #10b981; }
+
+        /* ── Consultation layout ── */
+        .consultation-section {
+            padding: 60px 10% 100px;
+            min-height: 62vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 28px;
+        }
+
+        /* override h2 from global (it would add margin-bottom) */
+        .consultation-section > h2 { display: none; }
+
+        .consultation-card {
+            width: 100%;
+            max-width: 660px;
+            background: linear-gradient(145deg, #0e0e0e, #0a0a0a);
+            border: 1px solid #1e1e1e;
+            border-radius: 14px;
+            padding: 52px 50px;
+            box-shadow: 0 8px 60px rgba(0,0,0,.7), 0 0 0 1px rgba(16,185,129,.05);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .consultation-card::before {
+            content: '';
+            position: absolute;
+            top: -70px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 240px;
+            height: 240px;
+            background: radial-gradient(circle, rgba(16,185,129,.10) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .consultation-intro {
+            font-size: 1rem;
+            color: #777;
+            margin-bottom: 32px;
+            line-height: 1.8;
+        }
+
+        /* ── Time box ── */
+        .time-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 36px;
+            padding: 28px 32px;
+            border: 1px solid rgba(16,185,129,.3);
+            background: rgba(16,185,129,.04);
+            border-radius: 10px;
+            transition: border-color .35s, box-shadow .35s;
+        }
+        .time-box:hover {
+            border-color: rgba(16,185,129,.65);
+            box-shadow: 0 0 28px rgba(16,185,129,.11);
+        }
+        .time-box-icon {
+            font-size: 1.5rem;
+            color: #10b981;
+            margin-bottom: 10px;
+        }
+        .time-box h3 {
+            color: #10b981;
+            font-size: .85rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .time-box p {
+            color: #fff;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+        }
+
+        /* ── Divider ── */
+        .card-divider {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 0 0 28px;
+            color: #333;
+            font-size: .7rem;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+        }
+        .card-divider::before,
+        .card-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #1e1e1e;
+        }
+
+        /* ── Contact detail items ── */
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 18px 22px;
+            background: #0d0d0d;
+            border: 1px solid #1e1e1e;
+            border-radius: 10px;
+            text-align: left;
+            text-decoration: none;
+            transition: border-color .3s, transform .3s, box-shadow .3s;
+            cursor: pointer;
+        }
+        .detail-item:hover {
+            border-color: #10b981;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 26px rgba(16,185,129,.1);
+        }
+        .detail-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: rgba(16,185,129,.08);
+            border: 1px solid rgba(16,185,129,.22);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #10b981;
+            font-size: 1rem;
+            flex-shrink: 0;
+            transition: background .3s;
+        }
+        .detail-item:hover .detail-icon {
+            background: rgba(16,185,129,.18);
+        }
+        .detail-body { flex: 1; }
+        .detail-body h4 {
+            color: #444;
+            font-size: .65rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+        }
+        .detail-body p {
+            color: #e0e0e0;
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+        .detail-arrow {
+            color: #2a2a2a;
+            font-size: .8rem;
+            transition: color .3s, transform .3s;
+        }
+        .detail-item:hover .detail-arrow {
+            color: #10b981;
+            transform: translateX(4px);
+        }
+
+        /* ── Info note ── */
+        .info-note {
+            width: 100%;
+            max-width: 660px;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            padding: 18px 22px;
+            border: 1px solid #1a1a1a;
+            border-left: 3px solid #10b981;
+            border-radius: 8px;
+            background: rgba(16,185,129,.02);
+        }
+        .info-note i {
+            color: #10b981;
+            font-size: .95rem;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+        .info-note p {
+            font-size: .9rem;
+            color: #555;
+            line-height: 1.65;
+        }
+
+        /* ── Footer ── */
+        footer {
+            border-top: 1px solid #141414;
+            padding: 36px 10%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            text-align: center;
+        }
+        .footer-logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: #fff;
+            text-transform: uppercase;
+        }
+        .footer-logo span { color: #10b981; }
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+            list-style: none;
+        }
+        .footer-links a {
+            color: #444;
+            text-decoration: none;
+            font-size: .72rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: color .3s;
+        }
+        .footer-links a:hover { color: #10b981; }
+        .footer-copy {
+            color: #2e2e2e;
+            font-size: .72rem;
+            letter-spacing: 1px;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 600px) {
+            .consultation-card { padding: 34px 22px; }
+            .time-box p { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="images/favicon.png" alt="Meraki logo" width="30" style="margin-right:10px;vertical-align:middle;"><span class="logo-typed"></span><span class="logo-cursor"></span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Főoldal</a></li>
+            <li><a href="portfolio.html">Munkáim</a></li>
+            <li><a href="elerhetosegek.html">Kapcsolat</a></li>
+            <li><a href="ahelyrol.html">A Helyről</a></li>
+            <li><a href="megbeszeles.html" class="active">Foglalás</a></li>
+        </ul>
+        <div class="burger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </nav>
+
+    <!-- Page hero -->
+    <header class="page-hero">
+        <div class="page-hero-content reveal">
+            <div class="page-hero-eyebrow"><i class="fas fa-calendar-check"></i> Időpontfoglalás</div>
+            <h1>Időpont <span>Megbeszélés</span></h1>
+        </div>
+    </header>
+
+    <!-- Hidden h2 kept for CSS compatibility -->
+    <section class="consultation-section">
+        <h2>Időpont <span>Megbeszélés</span></h2>
+
+        <div class="consultation-card reveal">
+            <p class="consultation-intro">
+                Az ügyfélfogadás előre egyeztetett időpontban történik —<br>
+                az üzlet nyitvatartása is ezen időpontokhoz igazodik.<br>
+                Megértésüket köszönjük!
+            </p>
+
+            <div class="card-divider">Elérhetőségek</div>
+
+            <div class="contact-details">
+                <div class="card-divider" style="margin-bottom:15px; color:#10b981;">Máté</div>
+                <a href="tel:+36703750922" class="detail-item reveal">
+                    <div class="detail-icon"><i class="fas fa-phone"></i></div>
+                    <div class="detail-body">
+                        <h4>Telefonszám</h4>
+                        <p>+36 70 375 0922</p>
+                    </div>
+                    <i class="fas fa-arrow-right detail-arrow"></i>
+                </a>
+                <a href="mailto:calvin.fangoria@gmail.com" class="detail-item reveal delay-1">
+                    <div class="detail-icon"><i class="fas fa-envelope"></i></div>
+                    <div class="detail-body">
+                        <h4>E-mail cím</h4>
+                        <p>calvin.fangoria@gmail.com</p>
+                    </div>
+                    <i class="fas fa-arrow-right detail-arrow"></i>
+                </a>
+                <a href="https://instagram.com/calvinfangoriart" target="_blank" rel="noopener" class="detail-item reveal delay-2">
+                    <div class="detail-icon"><i class="fab fa-instagram"></i></div>
+                    <div class="detail-body">
+                        <h4>Instagram</h4>
+                        <p>@calvinfangoriart</p>
+                    </div>
+                    <i class="fas fa-arrow-right detail-arrow"></i>
+                </a>
+
+                <div class="card-divider" style="margin-top:15px; margin-bottom:15px; color:#10b981;">Erik</div>
+                <a href="tel:+36703356187" class="detail-item reveal delay-3">
+                    <div class="detail-icon"><i class="fas fa-phone"></i></div>
+                    <div class="detail-body">
+                        <h4>Telefonszám</h4>
+                        <p>+36 70 335 6187</p>
+                    </div>
+                    <i class="fas fa-arrow-right detail-arrow"></i>
+                </a>
+
+                <div class="card-divider" style="margin-top:15px; margin-bottom:15px; color:#10b981;">Stúdió</div>
+                <div class="detail-item reveal delay-4" style="cursor:default;">
+                    <div class="detail-icon"><i class="fas fa-location-dot"></i></div>
+                    <div class="detail-body">
+                        <h4>Címünk</h4>
+                        <p>4220 Hajdúböszörmény<br>Munkácsy Mihály utca 1-3-5.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-note reveal">
+            <i class="fas fa-circle-info"></i>
+            <p>Kérlek, írj rövid leírást az elképzelésedről, a kívánt méretről és testrészről — így gyorsabb és hatékonyabb lesz az egyeztetés.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo">MERAKI<span>.</span></div>
+        <nav class="footer-links">
+            <a href="index.html">Főoldal</a>
+            <a href="portfolio.html">Munkáim</a>
+            <a href="elerhetosegek.html">Kapcsolat</a>
+            <a href="ahelyrol.html">A Helyről</a>
+            <a href="megbeszeles.html">Foglalás</a>
+        </nav>
+        <div class="footer-copy">© 2026 Meraki Tattoo — Minden jog fenntartva</div>
+    </footer>
+
+    <div class="noise-overlay"></div>
+    <script src="main.js"></script>
+</body>
+</html>
