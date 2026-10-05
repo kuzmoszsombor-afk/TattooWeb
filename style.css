@@ -8,6 +8,7 @@
 
 html {
     background-color: #050505;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -196,6 +197,7 @@ span {
     padding: 0 10%;
     position: relative;
     overflow: hidden;
+    z-index: 1;
 }
 
 .hero::before {
@@ -276,10 +278,9 @@ span {
 }
 
 .about-image img {
+    display: block;
     width: 100%;
-    max-width: 500px;
-    border: 2px solid #1a1a1a;
-    border-radius: 5px;
+    border-radius: 5px 5px 0 0;
     filter: grayscale(80%) contrast(1.2);
     transition: all 0.4s ease;
 }
@@ -1285,13 +1286,32 @@ p.lead {
     background: #0d0d0d;
     border: 1px solid #1a1a1a;
     border-radius: 10px;
-    transition: border-color .3s, transform .3s, box-shadow .3s;
+    transition: border-color .35s ease, transform .4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow .4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.06) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity .4s ease;
+    pointer-events: none;
+}
+
+.service-card:hover::before {
+    opacity: 1;
 }
 
 .service-card:hover {
     border-color: rgba(16, 185, 129, .4);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, .4);
+    transform: translateY(-6px);
+    box-shadow: 0 16px 50px rgba(0, 0, 0, .5), 0 0 30px rgba(16, 185, 129, 0.07);
 }
 
 .service-icon {
@@ -1340,11 +1360,13 @@ p.lead {
 .process-step {
     padding: 32px 26px;
     border-left: 2px solid #1a1a1a;
-    transition: border-color .3s;
+    transition: border-color .4s ease, transform .4s cubic-bezier(0.22, 1, 0.36, 1), background .3s ease;
 }
 
 .process-step:hover {
     border-left-color: #10b981;
+    transform: translateX(6px);
+    background: rgba(16, 185, 129, 0.02);
 }
 
 .step-num {
@@ -1354,6 +1376,11 @@ p.lead {
     line-height: 1;
     margin-bottom: 14px;
     letter-spacing: -2px;
+    transition: color .4s ease;
+}
+
+.process-step:hover .step-num {
+    color: rgba(16, 185, 129, .3);
 }
 
 .process-step h3 {
@@ -1737,24 +1764,32 @@ footer {
     border: 1px solid #1a1a1a;
     border-radius: 8px;
     overflow: hidden;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s ease, border-color .4s ease;
 }
 
 .about-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(16, 185, 129, 0.2);
+    transform: translateY(-8px);
+    border-color: rgba(16, 185, 129, 0.25);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(16, 185, 129, 0.08);
+}
+
+.about-card .about-image {
+    overflow: hidden;
 }
 
 .about-card .about-image img {
+    display: block;
     width: 100%;
     height: 400px;
     object-fit: cover;
+    object-position: center 20%;
     filter: grayscale(80%) contrast(1.1);
-    transition: filter 0.5s ease;
+    transition: filter 0.5s ease, transform 0.5s ease;
 }
 
 .about-card:hover .about-image img {
     filter: grayscale(0%) contrast(1);
+    transform: scale(1.03);
 }
 
 .about-card .about-text {

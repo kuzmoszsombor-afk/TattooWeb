@@ -6,10 +6,10 @@ const mateTattoos = [
 ];
 
 const erikTattoos = [
-    'kep5e.jpg',
-    'kep6e.jpg',
-    'kep7e.jpg',
-    'kep8e.jpg'
+    'kep5.jpg',
+    'kep6.jpg',
+    'kep7.jpg',
+    'kep8.jpg'
 ];
 
 const galleryMate = document.getElementById('gallery-mate');

@@ -1,8 +1,12 @@
 const shopImages = [
-    'hely1.jpg',
+    'hely1.jpeg',
     'hely2.jpg',
     'hely3.jpg',
-    'hely4.jpg'
+    'hely4.jpg',
+    'hely5.jpg',
+    'hely6.jpg',
+    'hely7.jpg',
+    'hely8.jpg'
 ];
 
 const shopGallery = document.getElementById('shopGallery');
@@ -16,12 +20,12 @@ function loadShopGallery() {
         img.src = `images/${imageSrc}`;
         img.classList.add('gallery-item');
         img.alt = 'A szalon';
-        
-        img.onerror = function() {
+
+        img.onerror = function () {
             this.src = 'https://via.placeholder.com/300x300/1e1e1e/10b981?text=SZALON';
         };
 
-        img.addEventListener('click', function() {
+        img.addEventListener('click', function () {
             shopModal.style.display = 'block';
             shopModalImg.src = this.src;
         });
@@ -30,11 +34,11 @@ function loadShopGallery() {
     });
 }
 
-closeShopSpan.onclick = function() {
+closeShopSpan.onclick = function () {
     shopModal.style.display = 'none';
 }
 
-shopModal.onclick = function(e) {
+shopModal.onclick = function (e) {
     if (e.target !== shopModalImg) {
         shopModal.style.display = 'none';
     }
