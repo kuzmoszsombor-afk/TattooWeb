@@ -1,32 +1,48 @@
 /**
  * ═══════════════════════════════════════════════════
- *  MERAKI PARTICLES — Floating background animation
- *  Renders a subtle canvas of drifting particles
- *  that react to scroll position, creating depth.
+ *  MERAKI INK FLOW — Scroll-driven background
+ *  Organic gradient orbs that drift and react to
+ *  scroll position, creating a living atmosphere.
+ *  Pure Vanilla JS · No dependencies · ~4 KB
  * ═══════════════════════════════════════════════════
  */
 
 (function () {
     'use strict';
 
-    // ── Configuration ──────────────────────────────────────────
-    const CONFIG = {
-        particleCount: 60,
-        minRadius: 1,
-        maxRadius: 3,
-        minSpeed: 0.15,
-        maxSpeed: 0.5,
-        color: { r: 16, g: 185, b: 129 },   // #10b981
-        maxOpacity: 0.35,
-        lineDistance: 140,
-        lineOpacity: 0.06,
-        scrollInfluence: 0.08,
-        mouseInfluence: 0.00015,
+    /* ── Reduced-motion bail-out ───────────────────────────── */
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    /* ── Configuration ────────────────────────────────────── */
+    const CFG = {
+        orbCount     : 7,
+        palette      : [
+            { r:  5, g:  90, b:  65 },   // deep emerald
+            { r: 16, g: 185, b: 129 },   // #10b981
+            { r: 52, g: 211, b: 153 },   // #34d399  (lighter)
+            { r:  8, g:  50, b:  42 },   // near-black green
+            { r: 10, g: 120, b:  90 },   // mid emerald
+        ],
+        minRadius    : 120,
+        maxRadius    : 380,
+        maxOpacity   : 0.12,
+        driftSpeed   : 0.15,            // base autonomous drift (px / frame)
+        scrollFactor : 0.35,            // how much scroll moves orbs
+        breathCycle  : 6000,            // ms for one "breath" scale pulse
+        mobileOrbCap : 5,              // fewer orbs on mobile for perf
+        mobileRadCap : 260,
     };
 
-    // ── Canvas setup ───────────────────────────────────────────
-    const canvas = document.createElement('canvas');
-    canvas.id = 'meraki-particles';
+    const isMobile = window.innerWidth < 768;
+    if (isMobile) {
+        CFG.orbCount  = CFG.mobileOrbCap;
+        CFG.maxRadius = CFG.mobileRadCap;
+    }
+
+    /* ── Canvas setup ─────────────────────────────────────── */
+    const canvas  = document.createElement('canvas');
+    canvas.id     = 'meraki-ink';
+    canvas.setAttribute('aria-hidden', 'true');
     canvas.style.cssText = `
         position: fixed;
         inset: 0;
@@ -35,163 +51,146 @@
         pointer-events: none;
         z-index: 0;
         opacity: 0;
-        transition: opacity 1.5s ease;
+        transition: opacity 1.8s ease;
     `;
     document.body.prepend(canvas);
 
-    // Fade in after a short delay
+    // Fade in gracefully
     requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            canvas.style.opacity = '1';
-        });
+        requestAnimationFrame(() => { canvas.style.opacity = '1'; });
     });
 
     const ctx = canvas.getContext('2d');
-
     let W, H;
-    const resize = () => {
-        W = canvas.width = window.innerWidth;
-        H = canvas.height = window.innerHeight;
-    };
+
+    function resize() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        W = window.innerWidth;
+        H = window.innerHeight;
+        canvas.width  = W * dpr;
+        canvas.height = H * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
     window.addEventListener('resize', resize);
     resize();
 
-    // ── Mouse tracking ─────────────────────────────────────────
-    let mouse = { x: W / 2, y: H / 2 };
-    document.addEventListener('mousemove', e => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-    });
+    /* ── Scroll state ─────────────────────────────────────── */
+    let scrollPos = 0;
+    let scrollVel = 0;            // velocity (delta per frame)
+    let prevScroll = 0;
 
-    // ── Scroll tracking ────────────────────────────────────────
-    let scrollY = 0;
     window.addEventListener('scroll', () => {
-        scrollY = window.scrollY || window.pageYOffset;
+        scrollPos = window.scrollY || window.pageYOffset;
     }, { passive: true });
 
-    // ── Particle class ─────────────────────────────────────────
-    class Particle {
-        constructor() {
-            this.reset();
-        }
+    /* ── Orb class ─────────────────────────────────────────── */
+    class Orb {
+        constructor(index) {
+            const col = CFG.palette[index % CFG.palette.length];
+            this.r = col.r;
+            this.g = col.g;
+            this.b = col.b;
 
-        reset() {
+            this.radius = CFG.minRadius + Math.random() * (CFG.maxRadius - CFG.minRadius);
             this.x = Math.random() * W;
             this.y = Math.random() * H;
-            this.radius = CONFIG.minRadius + Math.random() * (CONFIG.maxRadius - CONFIG.minRadius);
-            this.speedX = (Math.random() - 0.5) * CONFIG.maxSpeed;
-            this.speedY = (Math.random() - 0.5) * CONFIG.maxSpeed;
-            this.baseOpacity = 0.1 + Math.random() * (CONFIG.maxOpacity - 0.1);
-            this.opacity = this.baseOpacity;
-            this.pulseSpeed = 0.005 + Math.random() * 0.01;
-            this.pulseOffset = Math.random() * Math.PI * 2;
-            this.depth = 0.3 + Math.random() * 0.7;  // parallax depth layer
+
+            // Autonomous drift direction
+            const angle = Math.random() * Math.PI * 2;
+            this.vx = Math.cos(angle) * CFG.driftSpeed * (0.5 + Math.random());
+            this.vy = Math.sin(angle) * CFG.driftSpeed * (0.5 + Math.random());
+
+            // Parallax depth  (0 = far / slow,  1 = near / fast)
+            this.depth = 0.2 + Math.random() * 0.8;
+
+            // Breathing phase offset
+            this.breathOffset = Math.random() * Math.PI * 2;
+
+            // Opacity range
+            this.baseOpacity = 0.04 + Math.random() * (CFG.maxOpacity - 0.04);
         }
 
         update(time) {
-            // Basic movement
-            this.x += this.speedX;
-            this.y += this.speedY;
+            // Autonomous drift
+            this.x += this.vx;
+            this.y += this.vy;
 
-            // Scroll parallax — deeper particles move faster
-            this.y -= scrollY * CONFIG.scrollInfluence * this.depth * 0.01;
+            // Scroll parallax — deeper orbs react more
+            this.y -= scrollVel * CFG.scrollFactor * this.depth;
 
-            // Mouse influence — subtle repulsion
-            const dx = this.x - mouse.x;
-            const dy = this.y - mouse.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 200) {
-                const force = (200 - dist) * CONFIG.mouseInfluence;
-                this.x += dx * force;
-                this.y += dy * force;
-            }
+            // Breathing (subtle scale oscillation baked into draw radius)
+            const breathT = (time % CFG.breathCycle) / CFG.breathCycle;
+            this.drawRadius = this.radius * (1 + 0.08 * Math.sin(breathT * Math.PI * 2 + this.breathOffset));
 
-            // Pulse opacity
-            this.opacity = this.baseOpacity + Math.sin(time * this.pulseSpeed + this.pulseOffset) * 0.1;
+            // Scroll-reactive opacity shift: orbs dim slightly at extreme velocities
+            const velDamp = Math.min(Math.abs(scrollVel) * 0.003, 0.04);
+            this.opacity = Math.max(0.02, this.baseOpacity - velDamp);
 
-            // Wrap around edges
-            if (this.x < -10) this.x = W + 10;
-            if (this.x > W + 10) this.x = -10;
-            if (this.y < -10) this.y = H + 10;
-            if (this.y > H + 10) this.y = -10;
+            // Wrap around edges with generous padding
+            const pad = this.radius;
+            if (this.x < -pad) this.x = W + pad;
+            if (this.x > W + pad) this.x = -pad;
+            if (this.y < -pad) this.y = H + pad;
+            if (this.y > H + pad) this.y = -pad;
         }
 
         draw() {
-            const { r, g, b } = CONFIG.color;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(${r},${g},${b},${this.opacity})`;
-            ctx.fill();
+            const grad = ctx.createRadialGradient(
+                this.x, this.y, 0,
+                this.x, this.y, this.drawRadius
+            );
+            grad.addColorStop(0,   `rgba(${this.r},${this.g},${this.b},${this.opacity})`);
+            grad.addColorStop(0.4, `rgba(${this.r},${this.g},${this.b},${this.opacity * 0.5})`);
+            grad.addColorStop(1,   `rgba(${this.r},${this.g},${this.b},0)`);
 
-            // Glow
             ctx.beginPath();
-            ctx.arc(this.x, this.y, this.radius * 3, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(${r},${g},${b},${this.opacity * 0.12})`;
+            ctx.arc(this.x, this.y, this.drawRadius, 0, Math.PI * 2);
+            ctx.fillStyle = grad;
             ctx.fill();
         }
     }
 
-    // ── Create particles ───────────────────────────────────────
-    const particles = [];
-    for (let i = 0; i < CONFIG.particleCount; i++) {
-        particles.push(new Particle());
-    }
+    /* ── Create orbs ──────────────────────────────────────── */
+    const orbs = [];
+    for (let i = 0; i < CFG.orbCount; i++) orbs.push(new Orb(i));
 
-    // ── Draw connecting lines ──────────────────────────────────
-    function drawLines() {
-        const { r, g, b } = CONFIG.color;
-        for (let i = 0; i < particles.length; i++) {
-            for (let j = i + 1; j < particles.length; j++) {
-                const dx = particles[i].x - particles[j].x;
-                const dy = particles[i].y - particles[j].y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < CONFIG.lineDistance) {
-                    const alpha = (1 - dist / CONFIG.lineDistance) * CONFIG.lineOpacity;
-                    ctx.beginPath();
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.strokeStyle = `rgba(${r},${g},${b},${alpha})`;
-                    ctx.lineWidth = 0.5;
-                    ctx.stroke();
-                }
-            }
-        }
-    }
+    /* ── Render loop ──────────────────────────────────────── */
+    let frame;
 
-    // ── Animation loop ─────────────────────────────────────────
-    let animFrame;
-    function animate(time) {
+    function render(time) {
+        // Compute scroll velocity (smoothed)
+        scrollVel += (scrollPos - prevScroll - scrollVel) * 0.15;
+        prevScroll = scrollPos;
+
         ctx.clearRect(0, 0, W, H);
 
-        particles.forEach(p => {
-            p.update(time);
-            p.draw();
-        });
+        // Use 'lighter' composite for soft additive glow where orbs overlap
+        ctx.globalCompositeOperation = 'lighter';
 
-        drawLines();
+        for (const orb of orbs) {
+            orb.update(time);
+            orb.draw();
+        }
 
-        animFrame = requestAnimationFrame(animate);
+        ctx.globalCompositeOperation = 'source-over';
+
+        frame = requestAnimationFrame(render);
     }
 
-    // Start when page is ready
+    /* ── Start ────────────────────────────────────────────── */
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => requestAnimationFrame(animate));
+        document.addEventListener('DOMContentLoaded', () => requestAnimationFrame(render));
     } else {
-        requestAnimationFrame(animate);
+        requestAnimationFrame(render);
     }
 
-    // ── Visibility API — pause when tab hidden ─────────────────
+    /* ── Visibility API — pause when tab is hidden ────────── */
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
-            cancelAnimationFrame(animFrame);
+            cancelAnimationFrame(frame);
         } else {
-            requestAnimationFrame(animate);
+            requestAnimationFrame(render);
         }
     });
-
-    // ── Reduced motion preference ──────────────────────────────
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        canvas.style.display = 'none';
-    }
 
 })();

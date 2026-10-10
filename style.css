@@ -736,14 +736,14 @@ form .btn:hover {
 
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: none;
     }
 }
 
 @keyframes fadeOut {
     from {
         opacity: 1;
-        transform: translateY(0);
+        transform: none;
     }
 
     to {
@@ -1780,9 +1780,9 @@ footer {
 .about-card .about-image img {
     display: block;
     width: 100%;
-    height: 400px;
+    height: 650px;
     object-fit: cover;
-    object-position: center 20%;
+    object-position: center top;
     filter: grayscale(80%) contrast(1.1);
     transition: filter 0.5s ease, transform 0.5s ease;
 }
