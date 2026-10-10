@@ -190,13 +190,13 @@ span {
 }
 
 .hero {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0 10%;
     position: relative;
-    overflow: hidden;
+    clip-path: inset(0);
     z-index: 1;
 }
 
@@ -537,6 +537,7 @@ form .btn:hover {
     border: 1px solid #1a1a1a;
     border-radius: 5px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
 }
 
 .contact-info h3 {
@@ -795,7 +796,30 @@ form .btn:hover {
         grid-template-columns: 1fr;
     }
 
+    .contact-section {
+        padding: 100px 5% 60px;
+    }
 
+    .contact-container {
+        padding: 20px 16px;
+        gap: 30px;
+        max-width: 100%;
+    }
+
+    .detail-item {
+        padding: 14px 14px;
+        gap: 12px;
+    }
+
+    .detail-body p {
+        word-break: break-word;
+        overflow-wrap: anywhere;
+        font-size: 0.95rem;
+    }
+
+    .map-container {
+        max-width: 100%;
+    }
 }
 
 /* ===================================================
@@ -1516,8 +1540,16 @@ footer {
         flex-direction: column;
         justify-content: center;
         text-align: center;
-        padding-top: 100px;
-        gap: 40px;
+        padding-top: 80px;
+        gap: 30px;
+    }
+
+    .hero {
+        padding: 0 6% 60px 6%;
+    }
+
+    .hero h1 {
+        font-size: clamp(2rem, 8vw, 2.5rem);
     }
 
     .hero-actions {
@@ -1543,12 +1575,19 @@ footer {
     }
 
     .stats-strip {
-        padding: 0 5%;
+        padding: 10px 5%;
+        justify-content: space-around;
     }
 
     .stat {
-        min-width: 100px;
-        padding: 28px 12px;
+        flex: 1 1 40%;
+        min-width: 140px;
+        padding: 20px 10px;
+        border-bottom: 1px solid #141414;
+    }
+    
+    .stat:nth-child(even) {
+        border-right: none;
     }
 
     .stat-num {
@@ -1884,7 +1923,18 @@ footer {
         flex-direction: column;
         align-items: flex-start;
         gap: 12px;
-        padding: 14px 18px;
+        padding: 14px 14px;
+        max-width: 100%;
+    }
+
+    .detail-body {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .detail-body p {
+        word-break: break-word;
+        overflow-wrap: anywhere;
     }
 
     .detail-icon {
@@ -1939,6 +1989,8 @@ footer {
     text-decoration: none;
     transition: border-color .3s, transform .3s, box-shadow .3s;
     cursor: pointer;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .detail-item:hover {
@@ -1968,6 +2020,8 @@ footer {
 
 .detail-body {
     flex: 1;
+    min-width: 0;
+    overflow-wrap: break-word;
 }
 
 .detail-body h4 {
